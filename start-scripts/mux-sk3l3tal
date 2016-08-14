@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# != 1 ]; then
+   echo $'\n'
+   echo "Usage: mux-sk3l3tal <projectRoot>"
+   echo $'\n'
+   exit 16
+fi
+
+tmux -2 new-session -s SK3L3TAL -d 
+tmux -2 new-window -n SK3L3TAL-main -c $1/src vim
+tmux split-window -h -c $1/build
+tmux selectp -t 2
+tmux split-window -v -c $1/src vifm ./ -c view
+tmux selectp -t 1 
+tmux attach-session -t SK3L3TAL
+

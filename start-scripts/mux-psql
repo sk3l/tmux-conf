@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ $# != 2 ]; then
+   echo $'\n'
+   echo "Usage: mux-psql <srcdir> <dbname>"
+   echo $'\n'
+   exit 16
+fi
+
+sudo systemctl start postgresql
+
+tmux -2 new-session -s PSQL -d 
+tmux -2 new-window -n PSQL-main -c $1  vim
+tmux split-window -h
+tmux selectp -t 2
+tmux split-window -v sudo -u postgres psql $2
+tmux selectp -t 1 
+tmux attach-session -t PSQL
+
